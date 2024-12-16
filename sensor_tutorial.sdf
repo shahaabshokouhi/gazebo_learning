@@ -1,0 +1,840 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+    <world name="car_world">
+        <physics name="1ms" type="ignored">
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1.0</real_time_factor>
+        </physics>
+        <plugin
+            filename="libignition-gazebo-physics-system.so"
+            name="ignition::gazebo::systems::Physics">
+        </plugin>
+        <plugin
+            filename="libignition-gazebo-user-commands-system.so"
+            name="ignition::gazebo::systems::UserCommands">
+        </plugin>
+        <plugin
+            filename="libignition-gazebo-scene-broadcaster-system.so"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+        </plugin>
+
+        <light type="directional" name="sun">
+            <cast_shadows>true</cast_shadows>
+            <pose>0 0 10 0 0 0</pose>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+            <attenuation>
+                <range>1000</range>
+                <constant>0.9</constant>
+                <linear>0.01</linear>
+                <quadratic>0.001</quadratic>
+            </attenuation>
+            <direction>-0.5 0.1 -0.9</direction>
+        </light>
+        
+        <model name="ground_plane">
+            <static>true</static>
+            <link name="link">
+                <collision name="collision">
+                <geometry>
+                    <plane>
+                    <normal>0 0 1</normal>
+                    </plane>
+                </geometry>
+                </collision>
+                <visual name="visual">
+                <geometry>
+                    <plane>
+                    <normal>0 0 1</normal>
+                    <size>30 30</size>
+                    </plane>
+                </geometry>
+                <material>
+                    <ambient>0.8 0.8 0.8 1</ambient>
+                    <diffuse>0.8 0.8 0.8 1</diffuse>
+                    <specular>0.8 0.8 0.8 1</specular>
+                </material>
+                </visual>
+            </link>
+        </model>
+        
+        <!-- Sensors -->
+        <plugin 
+            filename="libignition-gazebo-contact-system.so"
+            name="ignition::gazebo::systems::Contact">  
+        </plugin>
+
+        <plugin
+            filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
+        </plugin>
+
+        <plugin filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+
+        <!-- Environment Model -->
+        <model name="wall1">
+            <static>true</static>
+            <pose>10.0 0 0 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="wall2">
+            <static>true</static>
+            <pose>-10.0 0 0 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="wall3">
+            <static>true</static>
+            <pose>0.0 10.0 0 0 0 -1.57</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="wall4">
+            <static>true</static>
+            <pose>0.0 -10.0 0 0 0 -1.57</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.5 20.0 5.0</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="obs1">
+            <static>true</static>
+            <pose>0.0 0.0 1.25 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="obs2">
+            <static>true</static>
+            <pose>-5.0 5.0 1.25 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="obs3">
+            <static>true</static>
+            <pose>-4.0 -2.0 1.25 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+        <model name="obs4">
+            <static>true</static>
+            <pose>-2.0 -2.0 1.25 0 0 0</pose> <!-- pose relative to the world -->
+
+            <plugin filename="libignition-gazebo-touchplugin-system.so"
+                name="ignition::gazebo::systems::TouchPlugin">
+                <target>Jetracer</target>
+                <namespace>wall</namespace>
+                <time>0.001</time>
+                <enabled>true</enabled>
+            </plugin>
+            <link name="box">
+                <pose/>
+                <sensor name='sensor_contact' type='contact'>
+                    <contact>
+                        <collision>collision</collision>
+                    </contact>
+                </sensor>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 1.0 1</ambient>
+                        <diffuse>0.0 0.0 1.0 1</diffuse> <!-- Blue color -->
+                        <specular>0.0 0.0 1.0 1</specular>
+                    </material>
+                </visual>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>1.0 1.0 2.5</size>
+                        </box>
+                    </geometry>
+                </collision>
+            </link>
+        </model>
+
+
+
+        <!-- Jetracer Model -->
+        <model name='Jetracer' canonical_link='chassis'>
+            <pose relative_to='world'>-8.0 0 0 0 0 0</pose>
+            
+            <frame name="lidar_frame" attached_to = "chassis">
+                <pose>0.8 0 0.5 0 0 0</pose>
+            </frame>
+
+            <!-- Adding the chassis to the vehicle -->
+            <link name='chassis'>
+                <pose relative_to='__model__'>0 0 0.033 0 0 0</pose>
+                
+                <sensor name="imu_sensor" type="imu">
+                    <always_on>1</always_on>
+                    <update_rate>1</update_rate>
+                    <visualize>true</visualize>
+                    <topic>imu</topic>
+                </sensor>
+
+                <sensor name='gpu_lidar' type='gpu_lidar'>"
+                    <pose relative_to='lidar_frame'>0 0 0 0 0 0</pose>
+                    <topic>lidar</topic>
+                    <update_rate>10</update_rate>
+                    <ray>
+                    <scan>
+                        <horizontal>
+                        <samples>640</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.396263</min_angle>
+                        <max_angle>1.396263</max_angle>
+                        </horizontal>
+                        <vertical>
+                        <samples>1</samples>
+                        <resolution>0.01</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>0</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>0.08</min>
+                        <max>10.0</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    </ray>
+                    <alwaysOn>1</alwaysOn>
+                    <visualize>true</visualize>
+                </sensor>
+
+                <inertial>
+                    <mass>1.189</mass>
+                    <inertia>
+                        <ixx>0.095329</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.381317</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.476646</izz>
+                    </inertia>
+                </inertial>
+                <collision name='collision'>
+                    <geometry>
+                        <box>
+                            <size>0.23 0.122 0.02</size> <!-- Example dimensions for the chassis -->
+                        </box>
+                    </geometry>
+                </collision>
+                
+                <visual name='visual'>
+                    <geometry>
+                        <box>
+                            <size>0.23 0.122 0.02</size> <!-- Same dimensions as collision for simplicity -->
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 1.0 0.0 1</ambient>
+                        <diffuse>0.0 1.0 0.0 1</diffuse> <!-- Green color -->
+                        <specular>0.0 1.0 0.0 1</specular>
+                    </material>
+                </visual>
+
+            </link>
+
+            <!-- Adding front right wheel to the vehicle -->
+            <link name='front_right_wheel'>
+                <pose relative_to='front_right_wheel_joint'>0.064 -0.074 0 -1.5707 0 0</pose>
+
+                <inertial>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.043333</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.043333</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.08</izz>
+                    </inertia>
+                </inertial>
+
+                <visual name='visual'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 0.0 1</ambient>
+                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
+                        <specular>0.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+
+                <collision name='collision'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name='front_right_wheel_joint' type='revolute'>
+                <pose relative_to='front_right_wheel'/>
+                <parent>chassis</parent>
+                <child>front_right_wheel</child>
+                
+                <axis>
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
+                        <upper>1.79769e+308</upper> <!-- positive infinity -->
+                    </limit>
+                </axis>
+            </joint>
+
+            <link name="front_right_wheel_steering">
+                <pose relative_to="front_right_wheel_steering_joint">0 0 0 0 0 0</pose>
+                <inertial>
+                    <mass>0.005</mass>
+                    <inertia>
+                        <ixx>0.0000018</ixx>
+                        <iyy>0.0000018</iyy>
+                        <izz>0.0000018</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <joint name="front_right_wheel_steering_joint" type="revolute">
+                <parent>chassis</parent>
+                <child>MR-Buggy3/FrontRightWheelSteering</child>
+                <pose relative_to="MR-Buggy3/Base">.112 -.10 0 0 0 0</pose>
+                <axis>
+                    <xyz>0 0 1</xyz>
+                    <limit>
+                        <lower>-0.6</lower>
+                        <upper>0.6</upper>
+                        <velocity>1.0</velocity>
+                        <effort>25</effort>
+                    </limit>
+                    <use_parent_model_frame>1</use_parent_model_frame>
+                </axis>
+            </joint>
+
+            <!-- Adding back left wheel to the vehicle -->
+            <link name='rear_left_wheel'>
+                <pose relative_to='chassis'>-0.088 0.074 0 -1.5707 0 0</pose>
+                
+                <inertial>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.043333</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.043333</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.08</izz>
+                    </inertia>
+                </inertial>
+
+                <visual name='visual'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 0.0 1</ambient>
+                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
+                        <specular>0.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                
+                <collision name='collision'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+
+            <!-- Adding back right wheel to the vehicle -->
+            <link name='rear_right_wheel'>
+                <pose relative_to='chassis'>-0.088 -0.074 0 -1.5707 0 0</pose>
+
+                <inertial>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.043333</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.043333</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.08</izz>
+                    </inertia>
+                </inertial>
+
+                <visual name='visual'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 0.0 1</ambient>
+                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
+                        <specular>0.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+
+                <collision name='collision'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+
+              <!-- Adding front left wheel to the vehicle -->
+            <link name='front_left_wheel'>
+                <pose relative_to='chassis'>0.064 0.074 0 -1.5707 0 0</pose>
+                
+                <inertial>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.043333</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.043333</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.08</izz>
+                    </inertia>
+                </inertial>
+
+                <visual name='visual'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 0.0 1</ambient>
+                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
+                        <specular>0.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+                
+                <collision name='collision'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name='rear_left_wheel_joint' type='revolute'>
+                <pose relative_to='rear_left_wheel'/>
+                <parent>chassis</parent>
+                <child>rear_left_wheel</child>
+                
+                <axis>
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
+                        <upper>1.79769e+308</upper> <!-- positive infinity -->
+                    </limit>
+                </axis>
+            </joint>
+
+            <joint name='rear_right_wheel_joint' type='revolute'>
+                <pose relative_to='rear_right_wheel'/>
+                <parent>chassis</parent>
+                <child>rear_right_wheel</child>
+                
+                <axis>
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
+                        <upper>1.79769e+308</upper> <!-- positive infinity -->
+                    </limit>
+                </axis>
+            </joint>
+
+            <joint name='front_left_wheel_joint' type='revolute'>
+                <pose relative_to='front_left_wheel'/>
+                <parent>chassis</parent>
+                <child>front_left_wheel</child>
+                
+                <axis>
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
+                        <upper>1.79769e+308</upper> <!-- positive infinity -->
+                    </limit>
+                </axis>
+            </joint>
+
+             
+
+            <joint name="front_left_steering_joint" type="revolute">
+                <pose relative_to="front_left_wheel"/>
+                <parent>chassis</parent>
+                <child>front_left_wheel</child>
+                <axis>
+                    <xyz>0 0 1</xyz> <!-- Rotation around Z-axis for steering -->
+                    <limit>
+                        <lower>-0.5236</lower> <!-- -30 degrees in radians -->
+                        <upper>0.5236</upper> <!-- 30 degrees in radians -->
+                    </limit>
+                </axis>
+            </joint>
+
+            <joint name="front_right_steering_joint" type="revolute">
+                <pose relative_to="front_right_wheel"/>
+                <parent>chassis</parent>
+                <child>front_right_wheel</child>
+                <axis>
+                    <xyz>0 0 1</xyz> <!-- Rotation around Z-axis for steering -->
+                    <limit>
+                        <lower>-0.5236</lower> <!-- -30 degrees in radians -->
+                        <upper>0.5236</upper> <!-- 30 degrees in radians -->
+                    </limit>
+                </axis>
+            </joint>
+
+
+            <!-- Adding differential drive plugin to the vehicle -->
+            <plugin
+            filename="libignition-gazebo-diff-drive-system.so"
+            name="ignition::gazebo::systems::DiffDrive">
+                <left_joint>rear_left_wheel_joint</left_joint>
+                <right_joint>rear_right_wheel_joint</right_joint>
+                <wheel_separation>0.148</wheel_separation>
+                <wheel_radius>0.033</wheel_radius>
+                <odom_publish_frequency>1</odom_publish_frequency>
+                <topic>cmd_vel</topic>
+            </plugin>
+        </model>
+
+        <!-- Keyboard: moving forward -->
+        <plugin 
+        filename="libignition-gazebo-triggered-publisher-system.so"
+        name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+                <match field="data">16777235</match> 
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: 0.5}, angular: {z: 0.0}
+            </output>
+        </plugin>
+
+        <!-- Keyboard: moving backward -->
+        <plugin
+        filename="libignition-gazebo-triggered-publisher-system.so"
+        name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+                <match field="data">16777237</match>
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: -0.5}, angular: {z: 0.0}
+            </output>
+        </plugin>
+
+        <!-- Keyboard: turning left -->
+        <plugin
+        filename="libignition-gazebo-triggered-publisher-system.so"
+        name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+                <match field="data">16777234</match>
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: 0.0}, angular: {z: 0.5}
+            </output>
+        </plugin>
+
+        <!-- Keyboard: turning right -->
+        <plugin
+        filename="libignition-gazebo-triggered-publisher-system.so"
+        name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+                <match field="data">16777236</match>
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: 0.0}, angular: {z: -0.5}
+            </output>
+        </plugin>
+
+         <!-- Keyboard: stop -->
+        <plugin
+        filename="libignition-gazebo-triggered-publisher-system.so"
+        name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Int32" topic="/keyboard/keypress">
+                <match field="data">83</match>
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: 0.0}, angular: {z: 0.0}
+            </output>
+        </plugin>
+
+        <!--Collision Stop-->
+        <plugin filename="libignition-gazebo-triggered-publisher-system.so"
+            name="ignition::gazebo::systems::TriggeredPublisher">
+            <input type="ignition.msgs.Boolean" topic="/wall/touched">
+                <match>data: true</match>
+            </input>
+            <output type="ignition.msgs.Twist" topic="/cmd_vel">
+                linear: {x: 0.0}, angular: {z: 0.0}
+            </output>
+        </plugin>
+
+    </world>
+</sdf>
