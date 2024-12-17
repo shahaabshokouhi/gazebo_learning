@@ -481,7 +481,7 @@
 
             <!-- Adding front right wheel to the vehicle -->
             <link name='front_right_wheel'>
-                <pose relative_to='front_right_wheel_joint'>0.064 -0.074 0 -1.5707 0 0</pose>
+                <pose relative_to='front_right_wheel_joint'>0 0 0 -1.5707 0 0</pose>
 
                 <inertial>
                     <mass>1</mass>
@@ -520,8 +520,8 @@
             </link>
 
             <joint name='front_right_wheel_joint' type='revolute'>
-                <pose relative_to='front_right_wheel'/>
-                <parent>chassis</parent>
+                <pose relative_to='front_right_wheel_steering_joint'/>
+                <parent>front_right_wheel_steering</parent>
                 <child>front_right_wheel</child>
                 
                 <axis>
@@ -547,8 +547,90 @@
 
             <joint name="front_right_wheel_steering_joint" type="revolute">
                 <parent>chassis</parent>
-                <child>MR-Buggy3/FrontRightWheelSteering</child>
-                <pose relative_to="MR-Buggy3/Base">.112 -.10 0 0 0 0</pose>
+                <child>front_right_wheel_steering</child>
+                <pose relative_to="chassis">0.064 -0.074 0 0 0 0</pose>
+                <axis>
+                    <xyz>0 0 1</xyz>
+                    <limit>
+                        <lower>-0.6</lower>
+                        <upper>0.6</upper>
+                        <velocity>1.0</velocity>
+                        <effort>25</effort>
+                    </limit>
+                    <use_parent_model_frame>1</use_parent_model_frame>
+                </axis>
+            </joint>
+
+            <!-- Adding front left wheel to the vehicle -->
+            <link name='front_left_wheel'>
+                <pose relative_to='front_left_wheel_joint'>0 0 0 -1.5707 0 0</pose>
+
+                <inertial>
+                    <mass>1</mass>
+                    <inertia>
+                        <ixx>0.043333</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>0.043333</iyy>
+                        <iyz>0</iyz>
+                        <izz>0.08</izz>
+                    </inertia>
+                </inertial>
+
+                <visual name='visual'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.0 0.0 0.0 1</ambient>
+                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
+                        <specular>0.0 0.0 0.0 1</specular>
+                    </material>
+                </visual>
+
+                <collision name='collision'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.033</radius>
+                            <length>0.026</length>
+                        </cylinder>
+                    </geometry>
+                </collision>
+            </link>
+
+            <joint name='front_left_wheel_joint' type='revolute'>
+                <pose relative_to='front_left_wheel_steering_joint'/>
+                <parent>front_left_wheel_steering</parent>
+                <child>front_left_wheel</child>
+                
+                <axis>
+                    <xyz expressed_in='__model__'>0 1 0</xyz>
+                    <limit>
+                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
+                        <upper>1.79769e+308</upper> <!-- positive infinity -->
+                    </limit>
+                </axis>
+            </joint>
+
+            <link name="front_left_wheel_steering">
+                <pose relative_to="front_left_wheel_steering_joint">0 0 0 0 0 0</pose>
+                <inertial>
+                    <mass>0.005</mass>
+                    <inertia>
+                        <ixx>0.0000018</ixx>
+                        <iyy>0.0000018</iyy>
+                        <izz>0.0000018</izz>
+                    </inertia>
+                </inertial>
+            </link>
+
+            <joint name="front_left_wheel_steering_joint" type="revolute">
+                <parent>chassis</parent>
+                <child>front_left_wheel_steering</child>
+                <pose relative_to="chassis">0.064 0.074 0 0 0 0</pose>
                 <axis>
                     <xyz>0 0 1</xyz>
                     <limit>
@@ -641,45 +723,6 @@
                 </collision>
             </link>
 
-              <!-- Adding front left wheel to the vehicle -->
-            <link name='front_left_wheel'>
-                <pose relative_to='chassis'>0.064 0.074 0 -1.5707 0 0</pose>
-                
-                <inertial>
-                    <mass>1</mass>
-                    <inertia>
-                        <ixx>0.043333</ixx>
-                        <ixy>0</ixy>
-                        <ixz>0</ixz>
-                        <iyy>0.043333</iyy>
-                        <iyz>0</iyz>
-                        <izz>0.08</izz>
-                    </inertia>
-                </inertial>
-
-                <visual name='visual'>
-                    <geometry>
-                        <cylinder>
-                            <radius>0.033</radius>
-                            <length>0.026</length>
-                        </cylinder>
-                    </geometry>
-                    <material>
-                        <ambient>0.0 0.0 0.0 1</ambient>
-                        <diffuse>0.0 0.0 0.0 1</diffuse> <!-- Black color -->
-                        <specular>0.0 0.0 0.0 1</specular>
-                    </material>
-                </visual>
-                
-                <collision name='collision'>
-                    <geometry>
-                        <cylinder>
-                            <radius>0.033</radius>
-                            <length>0.026</length>
-                        </cylinder>
-                    </geometry>
-                </collision>
-            </link>
 
             <joint name='rear_left_wheel_joint' type='revolute'>
                 <pose relative_to='rear_left_wheel'/>
@@ -705,48 +748,6 @@
                     <limit>
                         <lower>-1.79769e+308</lower> <!-- negative infinity -->
                         <upper>1.79769e+308</upper> <!-- positive infinity -->
-                    </limit>
-                </axis>
-            </joint>
-
-            <joint name='front_left_wheel_joint' type='revolute'>
-                <pose relative_to='front_left_wheel'/>
-                <parent>chassis</parent>
-                <child>front_left_wheel</child>
-                
-                <axis>
-                    <xyz expressed_in='__model__'>0 1 0</xyz>
-                    <limit>
-                        <lower>-1.79769e+308</lower> <!-- negative infinity -->
-                        <upper>1.79769e+308</upper> <!-- positive infinity -->
-                    </limit>
-                </axis>
-            </joint>
-
-             
-
-            <joint name="front_left_steering_joint" type="revolute">
-                <pose relative_to="front_left_wheel"/>
-                <parent>chassis</parent>
-                <child>front_left_wheel</child>
-                <axis>
-                    <xyz>0 0 1</xyz> <!-- Rotation around Z-axis for steering -->
-                    <limit>
-                        <lower>-0.5236</lower> <!-- -30 degrees in radians -->
-                        <upper>0.5236</upper> <!-- 30 degrees in radians -->
-                    </limit>
-                </axis>
-            </joint>
-
-            <joint name="front_right_steering_joint" type="revolute">
-                <pose relative_to="front_right_wheel"/>
-                <parent>chassis</parent>
-                <child>front_right_wheel</child>
-                <axis>
-                    <xyz>0 0 1</xyz> <!-- Rotation around Z-axis for steering -->
-                    <limit>
-                        <lower>-0.5236</lower> <!-- -30 degrees in radians -->
-                        <upper>0.5236</upper> <!-- 30 degrees in radians -->
                     </limit>
                 </axis>
             </joint>
